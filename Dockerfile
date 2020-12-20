@@ -1,31 +1,34 @@
-FROM python:3.7.2-alpine3.7
+FROM python:3.7.9-alpine3.12
 
 LABEL maintainer="graham@grahamgilbert.com"
 
 ENV APP_DIR /home/docker/crypt
 ENV DEBUG false
-ENV LANG en-us
+ENV LANG en
 ENV TZ America/New_York
 ENV LC_ALL en_US.UTF-8
 
 COPY setup/requirements.txt /tmp/requirements.txt
 
 # This is gross, but needed until we get pip patched in the upstream image
-RUN LIBRARY_PATH=/lib:/usr/lib /bin/sh -c "pip install --upgrade pip==19.0.3"
+# RUN LIBRARY_PATH=/lib:/usr/lib /bin/sh -c "pip install --upgrade pip==19.0.3"
 
 RUN set -ex \
     && apk add --no-cache --virtual .build-deps \
-            gcc \
-            git \
-            libffi-dev \
-            libc-dev \
-            musl-dev \
-            linux-headers \
-            pcre-dev \
-            postgresql-dev \
-            mariadb-dev \
-            xmlsec-dev \
-            tzdata \
+    gcc \
+    git \
+    openssl-dev \
+    libffi-dev \
+    libc-dev \
+    musl-dev \
+    linux-headers \
+    pcre-dev \
+    postgresql-dev \
+    mariadb-dev \
+    xmlsec-dev \
+    tzdata \
+    postgresql-libs \
+    libpq \
     && LIBRARY_PATH=/lib:/usr/lib /bin/sh -c "pip install --no-cache-dir -r /tmp/requirements.txt" \
     && rm /tmp/requirements.txt
 
