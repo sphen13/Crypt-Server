@@ -24,6 +24,7 @@ RUN set -ex \
     linux-headers \
     pcre-dev \
     postgresql-dev \
+    mariadb-dev \
     xmlsec-dev \
     tzdata \
     postgresql-libs \
