@@ -3,6 +3,7 @@ from .models import *
 from django.contrib.auth.decorators import login_required, permission_required
 from django.template import RequestContext, Template, Context
 import json
+import pytz
 import copy
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import HttpResponse, Http404, JsonResponse
@@ -17,6 +18,7 @@ from django.views.defaults import server_error
 from django.core.mail import send_mail
 from django.conf import settings
 from django.urls import reverse
+from django.utils.html import escape
 
 # Create your views here.
 logger = logging.getLogger(__name__)
@@ -34,9 +36,11 @@ def cleanup():
 
 def get_server_version():
     current_dir = os.path.dirname(os.path.realpath(__file__))
-    version = plistlib.readPlist(
-        os.path.join(os.path.dirname(current_dir), "fvserver", "version.plist")
-    )
+
+    with open(
+        os.path.join(os.path.dirname(current_dir), "fvserver", "version.plist"), "rb"
+    ) as f:
+        version = plistlib.load(f)
     return version["version"]
 
 
@@ -145,12 +149,12 @@ def tableajax(request):
 
         serial_link = '<a href="%s">%s</a>' % (
             reverse("server:computer_info", args=[machine["id"]]),
-            machine["serial"],
+            escape(machine["serial"]),
         )
 
         computername_link = '<a href="%s">%s</a>' % (
             reverse("server:computer_info", args=[machine["id"]]),
-            machine["computername"],
+            escape(machine["computername"]),
         )
 
         info_button = '<a class="btn btn-info btn-xs" href="%s">Info</a>' % (
@@ -160,7 +164,7 @@ def tableajax(request):
         list_data = [
             serial_link,
             computername_link,
-            machine["username"],
+            escape(machine["username"]),
             formatted_date,
             info_button,
         ]

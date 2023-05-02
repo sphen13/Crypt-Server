@@ -13,9 +13,11 @@ ROTATE_VIEWED_SECRETS = True
 DATE_FORMAT = "Y-m-d H:i:s"
 DATETIME_FORMAT = "Y-m-d H:i:s"
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
+ADMINS = [
+    (
+        # ('Your Name', 'your_email@example.com'),
+    )
+]
 
 FIELD_ENCRYPTION_KEY = os.environ.get("FIELD_ENCRYPTION_KEY", "")
 
@@ -109,10 +111,11 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.i18n",
+                "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.media",
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
-                "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.request",
                 "fvserver.context_processors.crypt_version",
             ],
             "debug": DEBUG,
@@ -131,7 +134,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROOT_URLCONF = "fvserver.urls"
 
@@ -180,3 +182,5 @@ LOGGING = {
         }
     },
 }
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
