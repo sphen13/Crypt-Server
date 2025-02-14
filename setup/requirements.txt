@@ -42,4 +42,4 @@ supervisor==4.2.4
 tomli==2.0.1
 whitenoise==6.2.0
 wrapt==1.14.1
-mysqlclient==2.2.4
+mysqlclient==2.2.7
